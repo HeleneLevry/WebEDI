@@ -1,0 +1,11 @@
+1510827777;0123;123;euros;dsq;qds;
+1510827852;0123;123;dollars;dqs;jk;
+1510827852;0123;123;euros;dsq;qds;
+1510827885;0123;123;dollars;dqs;jk;
+1510827885;0123;123;euros;dsq;qds;
+1510833411;0123;123;dollars;fhjf;hkllh;
+1510839998;0124;1124;dollars;gjkl;lkml;
+1510839998;0124;533;euros;klhjk;kjl;
+1510840059;0124;1124;dollars;gjkl;lkml;
+1510840059;0124;533;euros;klhjk;kjl;
+1513544102;0123;569;dollars;gfy;ehyt;
