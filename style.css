@@ -1,6 +1,7 @@
 /* style.css */
 
 body{
+	min-height: 100%;
 	background-color: #cae5ff;
 	color: #615d6c;
 	text-align: left;
@@ -40,7 +41,7 @@ h4{
 
 p{
 	text-align: justify;
-	line-height: 1.5em;
+	line-height: 1.6em;
 }
 
 hr{
@@ -51,6 +52,29 @@ hr{
 	border: none;
 }
 
+a:link{
+	color: #8C8994;
+	text-align: left;
+	font-style: oblique;
+	line-height: 0.5em;
+}
+a:visited{
+	color: #8C8994;
+	text-align: left;
+	font-style: oblique;
+	line-height: 0.5em;
+}
+a:hover{
+	color: #8C8994;
+	text-align: left;
+	font-style: normal;
+	line-height: 0.5em;
+}
+
+.hidden{
+	visibility:hidden;
+}
+
 .hrFine{
 	margin: 20px auto;
 	width: 25%;
@@ -58,6 +82,7 @@ hr{
 	background-color: #8C8994;
 	border: none;
 }
+
 
 .long{
 	margin: 20px auto;
@@ -74,6 +99,12 @@ hr{
 
 .rightAlign{
 	text-align: right;
+	margin-right: 10px;
+}
+
+.leftAlign{
+	text-align: left;
+	margin-left: 10px;
 }
 
 .center{
@@ -90,7 +121,8 @@ hr{
 	padding-bottom: 5px;
 	padding-left: 20px;
 	padding-right: 20px;
-	width: 150px;
+	width: auto;
+	min-width: 150px;
 	margin-top: 15px;
 	margin-bottom: 15px;
 	margin-left: 5px;

@@ -8,19 +8,21 @@ create database webedi;
 #table utilisateurs
 create table users(
 	userId int unsigned not null auto_increment primary key,
-	login char(20) not null unique,
-	password char(8),
-	name char(20), 
-	firstName char(20),
+	login varchar(20) not null unique,
+	password varchar(40),
+	name varchar(20), 
+	firstName varchar(20),
+	email varchar(40),
 	attemps int unsigned not null,
-	connectionDate date
+	connectionDate date,
+	active boolean
 );
 
 #table operations
 create table operations(
 	opeId int unsigned not null auto_increment primary key,
 	batch int unsigned not null,
-	type char(3),
+	type char(10),
 	amount float(6,2),
 	originAccount char(20),
 	destinationAccount char(20),

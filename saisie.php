@@ -1,4 +1,7 @@
 <!-- saisie.php -->
+
+<?php require "session.php" ?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -10,16 +13,27 @@
 </head>
 
 <body>
+
+    <p class="link rightAlign">
+        <a href="do.deconnexion.php"> Deconnection </a>
+    </p>
+
     <!-- URL parameters recovery -->
     <?php
+
+    // Session expired
+    if($_SESSION['last_activity'] < time()-$expire_time){
+        header("Location: connection.php?error=sessionExpired");
+        exit();
+    }
+    $_SESSION['last_activity'] = time();
+
     // Nb transaction
     $nbTransaction = 5;
     // Error
     $Error = '';
     $fromSaisie = false;
-    $namePar = '';
-    $firstnamePar = '';
-    $userIdPar = '';
+    $ValidParam = false;
     
     // Error messages
     if (isset($_GET['error'])) {
@@ -37,33 +51,24 @@
     }
 
     // parameters recovery
-    if ((isset($_GET['name'])) AND (isset($_GET['firstname'])) AND (isset($_GET['id']))){
-        // Name
-        $namePar = $_GET['name'];
-        // Firstname
-        $firstnamePar = $_GET['firstname'];
-        // Id
-        $userIdPar = $_GET['id'];
+    if ((isset($_SESSION['name'])) AND (isset($_SESSION['firstname'])) AND (isset($_SESSION['userId']))){
+        $ValidParam = true;
     }
     else {
-        $Error = 'missingArg';
+        header("Location: connection.php?error=sessionExpired");
+        exit();
+        /*<p>
+            You need to reconnect : <br>
+            <input class="button" type="button" value="Log in" onclick="window.location.href='connection.php'"/>
+        </p>   */  
     }
-
     ?>
 
     <!-- Correct URL parameters: print the page -->
     <?php
-
-    // Title (new user)
-    if (isset($_GET['new']) AND $_GET['new']=="NewUser"){
+    if($ValidParam){
         // Print user's identity and title
-        echo ("<h1>Welcome " . $firstnamePar . " " . strtoupper($namePar) . ", you're registered !</h1>");
-    }
-    else{
-            // Print user's identity and title
-        echo ("<h1>" . $firstnamePar . " " . strtoupper($namePar) . "</h1>");
-    }
-
+    echo ("<h1>" . $_SESSION['firstname'] . " " . strtoupper($_SESSION['name']) . "</h1>");
     // Subtitle
     echo("<hr>
         <h2>What transaction do you want to do?</h2>");
@@ -71,8 +76,10 @@
     echo ("<hr> <p class='info'>You need to enter at least one transaction.<br>
         If some of the fields of a transaction are incomplete, the transaction will not be completed.</p>");
     ?>
+
+
     <!-- Form -->
-    <form method="post" action="do.traitement.php?id=<?php echo $userIdPar ?>">
+    <form method="post" action="do.traitement.php">
         <hr class="hrFine">
         <?php
         for($i=0;$i<$nbTransaction;$i++){
@@ -149,6 +156,11 @@
             </div>
         </div>
     </form>
+
+
+<?php
+    }?>
+    
 
 </body>
 

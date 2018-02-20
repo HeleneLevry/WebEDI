@@ -1,6 +1,14 @@
 <!-- do.traitement.php -->
 
+<?php require "session.php" ?>
+
 <?php
+// Session expired
+if($_SESSION['last_activity'] < time()-$expire_time){
+	header("Location: connection.php?error=sessionExpired");
+	exit();
+}
+$_SESSION['last_activity'] = time();
 
 // Nb transaction
 $nbTransaction = 5;
@@ -13,6 +21,8 @@ $RedirectResultat = false;
 // $userId
 $userId = '';
 
+
+
 // Form parameters recovery
 for($i=0;$i<$nbTransaction;$i++){
 	${'transactionType'.$i} = $_POST["transactionType".$i];
@@ -22,8 +32,10 @@ for($i=0;$i<$nbTransaction;$i++){
 	${'destinationAccount'.$i} = $_POST["destinationAccount".$i];
 }
 // Parameters control
-if (isset($_GET['id'])){
-	$userId = $_GET['id'];
+if (isset($_SESSION['userId'])){
+	$userId = $_SESSION['userId'];
+
+	//  && $_SESSION['active'] == 1
 
 	// Database connection
 	try{
@@ -41,13 +53,13 @@ if (isset($_GET['id'])){
 		die();
 	}
 
-	echo'test<br>';
+	/*echo'test<br>';
 	echo($date.''.
 		$transactionType0.''.
 		$amount0.''.
 		$currency0.''.
 		$originAccount0.''. 
-		$destinationAccount0);
+		$destinationAccount0);*/
 
 	// Save transations
 	try{
@@ -86,7 +98,7 @@ else{
 // ----- Redirection ----- //
 // Redirect to saisie.php if correct identity
 if ($RedirectResultat) {
-	header("Location: resultat.php?id=$userId&date=$date");
+	header("Location: resultat.php?date=$date");
 	exit();
 }
 // Missing arguments
@@ -102,38 +114,3 @@ else if (!$RedirectResultat AND $Error == 'transactionFailed') {
 
 
 ?>
-
-
-<!-- for($i=0;$i<$nbTransaction;$i++){
-		// Choose transactionType
-		// Credit
-		if (${'transactionType'.$i} == "credit"){
-			@ $fcredit = fopen("dataSaved/vir.txt", "a");
-			// Error if file not found
-			if (!$fcredit){
-				echo ("ERROR : file credit.txt could not be opened");
-				exit;
-			}
-			// Lock the file - exclusive writing
-			flock($fcredit, 2);
-			fwrite($fcredit,($date.";".$id.";".${'amount'.$i}.";".${'currency'.$i}.";".${'originAccount'.$i}.";".${'destinationAccount'.$i}.";\n"));
-			// Unlock the file
-			flock($fcredit, 3);
-			fclose($fcredit);
-		}
-		// Debit
-		if (${'transactionType'.$i} == "debit"){
-			@ $fdebit = fopen("dataSaved/pre.txt", "a");
-			// Error if file not found
-			if (!$fdebit){
-				echo ("ERROR : file debit.txt could not be opened");
-				exit;
-			}
-			// Lock the file - exclusive writing
-			flock($fdebit, 2);
-			fwrite($fdebit,($date.";".$id.";".${'amount'.$i}.";".${'currency'.$i}.";".${'originAccount'.$i}.";".${'destinationAccount'.$i}.";\n"));
-			// Unlock the file
-			flock($fdebit, 3);
-			fclose($fdebit);
-		}
-	} -->
