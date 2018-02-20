@@ -3,7 +3,7 @@
 <?php require "session.php" ?>
 
 <?php
-    setcookie('WebEDI_login', $_POST["login"], time() + 30*24*3600, null, null, false, true);
+setcookie('WebEDI_login', $_POST["login"], time() + 30*24*3600, null, null, false, true);
 ?>
 
 <?php
@@ -28,29 +28,29 @@ if (isset($_POST["login"]) AND isset($_POST["password"])){
 		$dbmdp = '';
 		$options = array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-			);
+		);
 		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);
 
+		// Login search
+		$gabSearchLogin = "SELECT count(*) FROM users WHERE login LIKE ?";
+		$prepSearchLogin = $connection->prepare($gabSearchLogin);
+		$exeSearchLogin = $prepSearchLogin->execute(array($loginForm));
+		$resultatLogin = $prepSearchLogin->fetch(PDO::FETCH_NUM);
+		if ($resultatLogin[0] == 1) {
+
 		// Active account
-		$gabActive = "SELECT active FROM users WHERE login LIKE ?";
-		$prepActive = $connection->prepare($gabActive);
-		$exeActive = $prepActive->execute(array($loginForm));
-		$resultatActive = $prepActive->fetch(PDO::FETCH_NUM);
-		if ($resultatActive[0] == 1) {
+			$gabActive = "SELECT active FROM users WHERE login LIKE ?";
+			$prepActive = $connection->prepare($gabActive);
+			$exeActive = $prepActive->execute(array($loginForm));
+			$resultatActive = $prepActive->fetch(PDO::FETCH_NUM);
+			if ($resultatActive[0] == 1) {
 
 			// Find nb attemps
-			$gabNbrAttemps = "SELECT attemps FROM users WHERE login LIKE ?";
-			$prepNbrAttemps = $connection->prepare($gabNbrAttemps);
-			$exeNbrAttemps = $prepNbrAttemps->execute(array($loginForm));
-			$resultatNbrAttemps = $prepNbrAttemps->fetch(PDO::FETCH_NUM);
-			if ($resultatNbrAttemps[0] <3) {
-
-				// Login search
-				$gabSearchLogin = "SELECT count(*) FROM users WHERE login LIKE ?";
-				$prepSearchLogin = $connection->prepare($gabSearchLogin);
-				$exeSearchLogin = $prepSearchLogin->execute(array($loginForm));
-				$resultatLogin = $prepSearchLogin->fetch(PDO::FETCH_NUM);
-				if ($resultatLogin[0] == 1) {
+				$gabNbrAttemps = "SELECT attemps FROM users WHERE login LIKE ?";
+				$prepNbrAttemps = $connection->prepare($gabNbrAttemps);
+				$exeNbrAttemps = $prepNbrAttemps->execute(array($loginForm));
+				$resultatNbrAttemps = $prepNbrAttemps->fetch(PDO::FETCH_NUM);
+				if ($resultatNbrAttemps[0] <3) {
 
 					// Nb attemps Update
 					$gabUpdtNbrAttemps = "UPDATE users set attemps=? WHERE login LIKE ?";
@@ -95,11 +95,9 @@ if (isset($_POST["login"]) AND isset($_POST["password"])){
 						$_SESSION['logging_time'] = $datecur;
 						$_SESSION['last_activity'] = time();
 
-
 						/*echo($_SESSION['userId'] .", ". $_SESSION['login'].", ". $_SESSION['password'].", ".  $_SESSION['name'].", ". $_SESSION['firstname'] . ", " . $_SESSION['email']);
 						exit();*/
 						//$_COOKIE['login'] = $loginForm;
-
 					}
 
 					// Password verification
@@ -108,25 +106,25 @@ if (isset($_POST["login"]) AND isset($_POST["password"])){
 						$Error = 'pwdWrong';
 					}
 
-				// Login search	
+				// 	Find nb attemps
 				}
 				else {
 					$RedirectSaisie = false;
-					$Error = 'loginNotFound';
+					$Error = 'TooManyAttemps';
 				}
 
-			// 	Find nb attemps
+			// Find if active account
 			}
-			else {
+			else{
 				$RedirectSaisie = false;
-				$Error = 'TooManyAttemps';
+				$Error = 'NotActive';
 			}
 
-		// Find if active account
+		// Login search	
 		}
-		else{
+		else {
 			$RedirectSaisie = false;
-			$Error = 'NotActive';
+			$Error = 'loginNotFound';
 		}
 
 	// Database connection
