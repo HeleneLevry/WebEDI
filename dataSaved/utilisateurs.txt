@@ -1,3 +1,0 @@
-0122;log;pass;Hanks;Tom;
-0123;test;test;Smith;John;
-0124;login;password;Hopkings;Jerry;
