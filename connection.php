@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
-    <title>Web-EDI - Connection</title>
+    <title>Web-EDI - Log in</title>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
             <!-- Element 2 -->
             <div class="element">
                 <!-- Login -->
-                <p> <input type="text" required name="login" /> </p>
+                <p> <input type="text" required name="login" value="<?php valueCookie() ?>"/> </p>
                 <!-- Password -->
                 <p> <input type="password" required name="password" /> </p>
                 <!-- Validate -->
@@ -65,6 +65,17 @@
 
 </html>
 
+<!-- -------------------- FUNCTIONS -------------------- -->
+
+<!-- Fill with value cookie -->
+<?php
+    function valueCookie(){
+        if (isset($_COOKIE["WebEDI_login"])) {
+            echo $_COOKIE["WebEDI_login"];
+        }
+    }
+?>
+
 <!-- Error messages function -->
 <?php
     function printError(){
@@ -82,16 +93,20 @@
                 echo '<p class="err">Your account has been activated successfully</p>';
                 break;
             case 'NotActive':
-                echo '<p class="err">Sorry, your account isn\'t active yet</p>';
+                echo '<p class="err">
+                    Sorry, your account isn\'t active yet
+                    </br>
+                    Please check your mails and click on the link provided
+                    </p>';
                 break;
             case 'errConnectionDB':
                 echo '<p class="err">Cannot connect to the database</p>';
                 break;
+            case 'loginNotFound':
+                echo '<p class="err">Sorry, there is no account for this login</br>You should sign in</p>';
+                break;
             case 'TooManyAttemps':
                 echo '<p class="err">Sorry, you\'ve tried to connect too many times</p>';
-                break;
-            case 'loginNotFound':
-                echo '<p class="err">Sorry, there is no account for this login</p>';
                 break;
             case 'pwdWrong':
                 echo '<p class="err">Sorry, this is a wrong password</p>';

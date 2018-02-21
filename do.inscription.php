@@ -1,8 +1,12 @@
 <!-- do.inscription.php -->
 
-<!--?php require "session.php" ?-->
-
 <?php
+
+// -------------------- PROGRAMME --------------------
+
+
+
+
 
 // Validate variables to false
 $ValidateName=false;
@@ -108,11 +112,6 @@ if ($ValidateName AND $ValidateFirstname AND $ValidateLogin AND $ValidateEmail  
 	(NULL, ?, ?, ?, ?, ?, 0, ?, 0)";
 	$prepInsertUser = $connection->prepare($gabInsertUser);
 	$exeInsertUser = $prepInsertUser->execute(array($loginForm, $passwordHash, $nameForm, $firstnameForm, $emailForm, $datecur));
-
-// <a href="http://localhost/web-edi/do.validation.php/<?php echo($loginForm)"> Activate my account </a>
-	// Send an email
-	//sendMail2();
-
 
 	$objet = 'Web-EDI - Confirmation inscription';
 

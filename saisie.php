@@ -56,11 +56,7 @@
     }
     else {
         header("Location: connection.php?error=sessionExpired");
-        exit();
-        /*<p>
-            You need to reconnect : <br>
-            <input class="button" type="button" value="Log in" onclick="window.location.href='connection.php'"/>
-        </p>   */  
+        exit();  
     }
     ?>
 
@@ -145,12 +141,13 @@
             <hr class="hrFine">
             <?php
         }?>
+
         <!-- Conteneur -->
         <div id="conteneurValid">
             <!-- Element 1 -->
             <div class="element">
                 <!-- Validate -->
-                <p class="rightAlign">
+                <p class="rightAlign bottomButton">
                     <input class="button" type="submit" value="Validate" />
                 </p>
             </div>

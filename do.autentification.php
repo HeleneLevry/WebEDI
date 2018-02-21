@@ -1,27 +1,88 @@
 <!-- do.autentification.php -->
 
-<?php require "session.php" ?>
+<?php 
 
-<?php
+
+// -------------------- SESSION / COOKIES --------------------
+
+// session.php
+require "session.php";
+// setcookie
 setcookie('WebEDI_login', $_POST["login"], time() + 30*24*3600, null, null, false, true);
-?>
 
-<?php
 
-// Validate variables to false
-$ValidateLogin = false;
-$ValidatePassword = false;
+// -------------------- PROGRAMME --------------------
+
+// ----- Treatment -----
+// Init redirection on false
 $RedirectSaisie = false;
-$Error = '';
+// parameterControl
+if (parameterControl()){
+	// dbConnect
+	if (dbConnect()){
+		$connection = dbConnect();
+		// loginSearch
+		if (loginSearch()){
+			// activeSearch
+			if (activeSearch()) {
+				// nbrAttempsSearch
+				if (nbrAttempsSearch()){
+					// passwordVerify
+					if (passwordVerify()){
+						// resetNbAttemps
+						resetNbAttemps();
+						// connectionDateUpdate
+						connectionDateUpdate();
+						// saveUSerInfos
+						saveUSerInfos();
+						// Allow redirection
+						$RedirectSaisie = true;
+					// passwordVerify
+					}
+				// nbrAttempsSearch
+				}
+			// activeSearch
+			}
+		// loginSearch	
+		}
+	// dbConnect	
+	}
+// parameterControl	
+}
 
-// Parameter control
-if (isset($_POST["login"]) AND isset($_POST["password"])){
-	
-	// Form values recovery
-	$loginForm = $_POST["login"];
-	$passwordForm = $_POST["password"];
+// ----- Redirection -----
+if ($RedirectSaisie) {
+	header("Location: saisie.php");
+	exit();
+}
+elseif (isset($Error)) {
+	redirectError();
+}
+else{
+	echo('Issue to redirect');
+	exit();
+}
 
-	// Database connection
+
+// -------------------- FUNCTIONS --------------------
+
+// parameterControl
+function parameterControl(){
+	if ( isset($_POST["login"]) AND isset($_POST["password"]) ) {
+		global $loginForm, $passwordForm;
+		$loginForm = $_POST["login"];
+		$passwordForm = $_POST["password"];
+		return true;
+	}
+	else {
+		global $Error, $RedirectSaisie;
+		$RedirectSaisie = false;
+		$Error = 'missingArg';
+		return false;
+	}	
+}
+// dbConnect
+function dbConnect(){
 	try{
 		$dbhost = 'mysql:host=localhost;dbname=webedi';
 		$dbuser = 'root';
@@ -30,159 +91,156 @@ if (isset($_POST["login"]) AND isset($_POST["password"])){
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
 		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);
-
-		// Login search
-		$gabSearchLogin = "SELECT count(*) FROM users WHERE login LIKE ?";
-		$prepSearchLogin = $connection->prepare($gabSearchLogin);
-		$exeSearchLogin = $prepSearchLogin->execute(array($loginForm));
-		$resultatLogin = $prepSearchLogin->fetch(PDO::FETCH_NUM);
-		if ($resultatLogin[0] == 1) {
-
-		// Active account
-			$gabActive = "SELECT active FROM users WHERE login LIKE ?";
-			$prepActive = $connection->prepare($gabActive);
-			$exeActive = $prepActive->execute(array($loginForm));
-			$resultatActive = $prepActive->fetch(PDO::FETCH_NUM);
-			if ($resultatActive[0] == 1) {
-
-			// Find nb attemps
-				$gabNbrAttemps = "SELECT attemps FROM users WHERE login LIKE ?";
-				$prepNbrAttemps = $connection->prepare($gabNbrAttemps);
-				$exeNbrAttemps = $prepNbrAttemps->execute(array($loginForm));
-				$resultatNbrAttemps = $prepNbrAttemps->fetch(PDO::FETCH_NUM);
-				if ($resultatNbrAttemps[0] <3) {
-
-					// Nb attemps Update
-					$gabUpdtNbrAttemps = "UPDATE users set attemps=? WHERE login LIKE ?";
-					$prepUpdtNbrAttemps = $connection->prepare($gabUpdtNbrAttemps);
-					$exeUpdtNbrAttemps = $prepUpdtNbrAttemps->execute(array($resultatNbrAttemps[0]+1, $loginForm));
-
-					// Password verification
-					$gabSearchPwd = "SELECT password FROM users WHERE login LIKE ?";
-					$prepSearchPwd = $connection->prepare($gabSearchPwd);
-					$exeSearchPwd = $prepSearchPwd->execute(array($loginForm));
-					$resultatPwd = $prepSearchPwd->fetch(PDO::FETCH_NUM);
-
-					if ($resultatPwd[0] == md5($passwordForm)) {
-
-						// Reset nb attemps
-						$exeUpdtNbrAttemps = $prepUpdtNbrAttemps->execute(array(0, $loginForm));
-
-						// Change last connection date
-						$datecur = date("Y-m-d");
-						$gabDateConnect = "UPDATE users set connectionDate = ?";
-						$prepDateConnect = $connection->prepare($gabDateConnect);
-						$exeDateConnect = $prepDateConnect->execute(array($datecur));
-
-						// Find infos 
-						$gabUserInfo = "SELECT userId, name, firstName, email FROM users WHERE login LIKE ?";
-						$prepUserInfo = $connection->prepare($gabUserInfo);
-						$exeUserInfo = $prepUserInfo->execute(array($loginForm));
-						$resultatUserInfo = $prepUserInfo->fetch(PDO::FETCH_NUM);
-						$userIdDB = $resultatUserInfo[0];
-						$nameDB = $resultatUserInfo[1];
-						$firstnameDB = $resultatUserInfo[2];
-						$emailDB = $resultatUserInfo[3];
-
-						// Allow redirection
-						$RedirectSaisie = true;
-						$_SESSION['userId'] = $userIdDB;
-						$_SESSION['login'] = $loginForm;
-						$_SESSION['password'] = $passwordForm;
-						$_SESSION['name'] = $nameDB;
-						$_SESSION['firstname'] = $firstnameDB;
-						$_SESSION['email'] = $emailDB;
-						$_SESSION['logging_time'] = $datecur;
-						$_SESSION['last_activity'] = time();
-
-						/*echo($_SESSION['userId'] .", ". $_SESSION['login'].", ". $_SESSION['password'].", ".  $_SESSION['name'].", ". $_SESSION['firstname'] . ", " . $_SESSION['email']);
-						exit();*/
-						//$_COOKIE['login'] = $loginForm;
-					}
-
-					// Password verification
-					else{
-						$RedirectSaisie = false;
-						$Error = 'pwdWrong';
-					}
-
-				// 	Find nb attemps
-				}
-				else {
-					$RedirectSaisie = false;
-					$Error = 'TooManyAttemps';
-				}
-
-			// Find if active account
-			}
-			else{
-				$RedirectSaisie = false;
-				$Error = 'NotActive';
-			}
-
-		// Login search	
-		}
-		else {
-			$RedirectSaisie = false;
-			$Error = 'loginNotFound';
-		}
-
-	// Database connection
+		return $connection;
 	} catch (Exception $e){
+		global $Error, $RedirectSaisie;
 		echo"ERROR : MySQL connection failed : ", $e->getMessage();
 		$RedirectSaisie = false;
 		$Error = 'errConnectionDB';
-		die();
+		return false;
 	}
-
-// Parameter control	
 }
-else {
-	$RedirectSaisie = false;
-	$Error = 'missingArg';
+// loginSearch
+function loginSearch(){
+	global $connection, $loginForm;
+	$gabSearchLogin = "SELECT count(*) FROM users WHERE login LIKE ?";
+	$prepSearchLogin = $connection->prepare($gabSearchLogin);
+	$exeSearchLogin = $prepSearchLogin->execute(array($loginForm));
+	$resultatLogin = $prepSearchLogin->fetch(PDO::FETCH_NUM);
+	if ($resultatLogin[0] == 1) {
+		return true;
+	}
+	else {
+		global $Error, $RedirectSaisie;
+		$RedirectSaisie = false;
+		$Error = 'loginNotFound';
+		return false;
+	}
 }
-
-// ----- Redirection ----- //
-// Redirect to saisie.php if correct identity
-if ($RedirectSaisie) {
-	header("Location: saisie.php?name=$nameDB&firstname=$firstnameDB&id=$userIdDB");
-	exit();
+// activeSearch
+function activeSearch(){
+	global $connection, $loginForm;
+	$gabActive = "SELECT active FROM users WHERE login LIKE ?";
+	$prepActive = $connection->prepare($gabActive);
+	$exeActive = $prepActive->execute(array($loginForm));
+	$resultatActive = $prepActive->fetch(PDO::FETCH_NUM);
+	if ($resultatActive[0] == 1) {
+		return true;
+	}
+	else {
+		global $Error, $RedirectSaisie;
+		$RedirectSaisie = false;
+		$Error = 'NotActive';
+		return false;
+	}
 }
-// Missing arguments
-else if (!$RedirectSaisie AND $Error == 'missingArg') {
-	header("Location: connection.php?error=missingArg");
-	exit();
+// nbrAttempsSearch
+function nbrAttempsSearch(){
+	global $connection, $loginForm;
+	$gabNbrAttemps = "SELECT attemps FROM users WHERE login LIKE ?";
+	$prepNbrAttemps = $connection->prepare($gabNbrAttemps);
+	$exeNbrAttemps = $prepNbrAttemps->execute(array($loginForm));
+	$resultatNbrAttemps = $prepNbrAttemps->fetch(PDO::FETCH_NUM);
+	if ($resultatNbrAttemps[0] <3) {
+		$gabUpdtNbrAttemps = "UPDATE users set attemps=? WHERE login LIKE ?";
+		$prepUpdtNbrAttemps = $connection->prepare($gabUpdtNbrAttemps);
+		$exeUpdtNbrAttemps = $prepUpdtNbrAttemps->execute(array($resultatNbrAttemps[0]+1, $loginForm));
+		return true;
+	}
+	else {
+		global $Error, $RedirectSaisie;
+		$RedirectSaisie = false;
+		$Error = 'TooManyAttemps';
+		return false;
+	}
 }
-// Error connection database
-else if (!$RedirectSaisie AND $Error == 'errConnectionDB') {
-	header("Location: connection.php?error=errConnectionDB");
-	exit();
+// passwordVerify
+function passwordVerify(){
+	global $connection, $loginForm, $passwordForm;
+	$gabSearchPwd = "SELECT password FROM users WHERE login LIKE ?";
+	$prepSearchPwd = $connection->prepare($gabSearchPwd);
+	$exeSearchPwd = $prepSearchPwd->execute(array($loginForm));
+	$resultatPwd = $prepSearchPwd->fetch(PDO::FETCH_NUM);
+	if ($resultatPwd[0] == md5($passwordForm)) {
+		return true;
+	}
+	else {
+		global $Error, $RedirectSaisie;
+		$RedirectSaisie = false;
+		$Error = 'pwdWrong';
+		return false;
+	}
 }
-// not active account
-else if (!$RedirectSaisie AND $Error == 'NotActive') {
-	header("Location: connection.php?error=NotActive");
-	exit();
+// resetNbAttemps
+function resetNbAttemps(){
+	global $connection, $loginForm;
+	$gabUpdtNbrAttemps = "UPDATE users set attemps=? WHERE login LIKE ?";
+	$prepUpdtNbrAttemps = $connection->prepare($gabUpdtNbrAttemps);
+	$exeUpdtNbrAttemps = $prepUpdtNbrAttemps->execute(array(0, $loginForm));
 }
-// Too many attemps
-else if (!$RedirectSaisie AND $Error == 'TooManyAttemps') {
-	header("Location: connection.php?error=TooManyAttemps");
-	exit();
+// connectionDateUpdate
+function connectionDateUpdate(){
+	global $connection;
+	$datecur = date("Y-m-d");
+	$gabDateConnect = "UPDATE users set connectionDate = ?";
+	$prepDateConnect = $connection->prepare($gabDateConnect);
+	$exeDateConnect = $prepDateConnect->execute(array($datecur));
+	$_SESSION['logging_time'] = $datecur;
 }
-// Wrong login
-else if (!$RedirectSaisie AND $Error == 'loginNotFound') {
-	header("Location: connection.php?error=loginNotFound");
-	exit();
+// saveUSerInfos
+function saveUSerInfos(){
+	global $connection, $loginForm, $passwordForm;
+	$gabUserInfo = "SELECT userId, name, firstName, email FROM users WHERE login LIKE ?";
+	$prepUserInfo = $connection->prepare($gabUserInfo);
+	$exeUserInfo = $prepUserInfo->execute(array($loginForm));
+	$resultatUserInfo = $prepUserInfo->fetch(PDO::FETCH_NUM);
+	// Session variable
+	$_SESSION['userId'] = $resultatUserInfo[0];
+	$_SESSION['login'] = $loginForm;
+	$_SESSION['password'] = $passwordForm;
+	$_SESSION['name'] = $resultatUserInfo[1];
+	$_SESSION['firstname'] = $resultatUserInfo[2];
+	$_SESSION['email'] = $resultatUserInfo[3];
+	$_SESSION['last_activity'] = time();
 }
-// Wrong password
-else if (!$RedirectSaisie AND $Error == 'pwdWrong') {
-	header("Location: connection.php?error=pwdWrong");
-	exit();
+// redirectError
+function redirectError(){
+	global $Error;
+	switch($Error) {
+    	// parameterControl
+		case 'missingArg':
+		header("Location: connection.php?error=missingArg");
+		exit();
+		break;
+	    // dbConnect
+		case 'errConnectionDB':
+		header("Location: connection.php?error=errConnectionDB");
+		exit();
+		break;
+	    // loginSearch
+		case 'loginNotFound':
+		header("Location: connection.php?error=loginNotFound");
+		exit();
+		break;
+	    // activeSearch
+		case 'NotActive':
+		header("Location: connection.php?error=NotActive");
+		exit();
+		break;
+	    // nbrAttempsSearch
+		case 'TooManyAttemps':
+		header("Location: connection.php?error=TooManyAttemps");
+		exit();
+		break;
+	    // passwordVerify
+		case 'pwdWrong':
+		header("Location: connection.php?error=pwdWrong");
+		exit();
+		break;
+		default:
+		header("Location: connection.php?error=unknow");
+		exit();
+	}
 }
-// Redirect to connection.php with error message if wrong identity
-else{
-	header("Location: connection.php?error=unknow");
-	exit();
-}
-
 
 ?>

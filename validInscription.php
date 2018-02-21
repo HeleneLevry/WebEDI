@@ -1,7 +1,5 @@
 <!-- validInsciption.php -->
 
-<!--?php require "session.php" ?-->
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -9,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
-    <title>validInsciption.php</title>
+    <title>Web-EDI - Validate account</title>
 </head>
 
 <body>

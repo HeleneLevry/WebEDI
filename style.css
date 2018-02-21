@@ -1,7 +1,13 @@
 /* style.css */
 
+html{
+	height:100%;
+}
+
 body{
 	min-height: 100%;
+	margin: 0;
+	padding: 0;
 	background-color: #cae5ff;
 	color: #615d6c;
 	text-align: left;
@@ -9,7 +15,6 @@ body{
 	font-family: Verdana, Georgia, Trebuchet, Arial, sans-serif;
 	font-style: normal;
 	font-weight: normal;
-	margin: 0px;
 }
 
 h1{
@@ -95,6 +100,12 @@ a:hover{
 .info{
 	text-align: center;
 	font-style: oblique;
+}
+
+.bottomButton{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
 }
 
 .rightAlign{

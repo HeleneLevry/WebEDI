@@ -1,7 +1,5 @@
 <!-- inscription.php -->
 
-<!--?php require "session.php" ?-->
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -9,33 +7,19 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
-    <title>inscription.php</title>
+    <title>Web-EDI - Sign In</title>
 </head>
 
 <body>
 
+    <!-- Title -->
     <h1>Sign in</h1>
     <hr>
 
-    <!-- Error message in case of bad identifiers -->
+    <!-- Error messages -->
     <?php
-    if (isset($_GET['error']) AND $_GET['error']=="missingArg"){
-        echo '<p class="err">Some fields are missing</p>';
-    }
-    else if (isset($_GET['error']) AND $_GET['error']=="loginExists"){
-        echo '<p class="err">This login already exists, please change it</p>';
-    }
-    else if (isset($_GET['error']) AND $_GET['error']=="emailNotConfirm"){
-        echo '<p class="err">The two email fields are differents</p>';
-    }
-    else if (isset($_GET['error']) AND $_GET['error']=="pwdNotConfirm"){
-        echo '<p class="err">The two password fields are differents</p>';
-    }
-    else if (isset($_GET['error']) AND $_GET['error']=="passwordNotHashed"){
-        echo '<p class="err">Error when hashing the password</p>';
-    }
-    else if (isset($_GET['error']) AND $_GET['error']=="incorrectPassword"){
-        echo '<p class="err">Password not correct. Password must be 8 charaters long and contain lowercase, uppercase and number.</p>';
+    if (isset($_GET['error'])) {
+        printError();
     }
     ?>
 
@@ -83,7 +67,7 @@
                 <!-- hr-->
                 <hr class="hidden hrFine">
                 <!-- Login -->
-                <p> <input type="text" required name="login" /> </p>
+                <p> <input type="text" required name="login" </p>
                 <!-- hr-->
                 <hr class="hidden hrFine">
                 <!-- Email -->
@@ -110,6 +94,36 @@
 </body>
 
 </html>
+
+<!-- -------------------- FUNCTIONS -------------------- -->
+
+<!-- Error messages function -->
+<?php
+    function printError(){
+        switch($_GET['error']) {
+            case 'missingArg':
+                echo '<p class="err">Some fields are missing</p>';
+                break;
+            case 'loginExists':
+                echo '<p class="err">Sorry, this login already exists, please choose another one</p>';
+                break;
+            case 'emailNotConfirm':
+                echo '<p class="err">Sorry, the two email fields are differents</p>';
+                break;
+            case 'pwdNotConfirm':
+                echo '<p class="err">Sorry, the two password fields are differents</p>';
+                break;
+            case 'passwordNotHashed':
+                echo '<p class="err">Sorry, we encountered an issue when hashing the password</p>';
+                break;
+            case 'incorrectPassword':
+                echo '<p class="err">Sorry, the password is not correct</br>Password must be 8 charaters long and contain lowercase, uppercase and number</p>';
+                break;
+            default: 
+                echo '<p class="err">An error is detected but not identified</p>';
+        }
+    }
+?>
 
 
 <!--Name
