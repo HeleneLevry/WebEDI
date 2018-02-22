@@ -122,6 +122,15 @@ a:hover{
 	text-align: center;
 }
 
+.column{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	text-align: center;
+}
+
 .button{
 	text-align: center;
 	background-color: #615d6c;
@@ -151,6 +160,10 @@ a:hover{
 	color: #acedff;
 	font-weight: bold;
 }
+.miniature{
+	height: 100px;
+	width: auto;
+}
 
 #conteneur{
 	display: flex;
@@ -164,8 +177,8 @@ a:hover{
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
-	justify-content: center; 
-	align-items: flex-Start;
+	justify-content: flex-start; 
+	align-items: flex-start;
 }
 
 .element{
@@ -174,8 +187,15 @@ a:hover{
 
 .elementR{
 	padding: 20px 20px 50px 50px;
-	text-align: center;
+	text-align: left; 
 	flex-wrap: nowrap;
+}
+
+.size80{
+	width:80%;
+}
+.size40{
+	flex:0 0 40%;
 }
 
 #conteneurValid + .element:nth-child(1) /* On prend le deuxième bloc élément */

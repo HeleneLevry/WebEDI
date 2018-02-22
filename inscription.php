@@ -104,6 +104,9 @@
             case 'missingArg':
                 echo '<p class="err">Some fields are missing</p>';
                 break;
+             case 'errConnectionDB':
+                echo '<p class="err">Cannot connect to the database</p>';
+                break;
             case 'loginExists':
                 echo '<p class="err">Sorry, this login already exists, please choose another one</p>';
                 break;
@@ -113,11 +116,18 @@
             case 'pwdNotConfirm':
                 echo '<p class="err">Sorry, the two password fields are differents</p>';
                 break;
+            case 'incorrectPassword':
+                echo '<p class="err">Sorry, the password is not correct</br>Password must be 8 charaters long and contain lowercase, uppercase and number</p>';
+                break;
             case 'passwordNotHashed':
                 echo '<p class="err">Sorry, we encountered an issue when hashing the password</p>';
                 break;
-            case 'incorrectPassword':
-                echo '<p class="err">Sorry, the password is not correct</br>Password must be 8 charaters long and contain lowercase, uppercase and number</p>';
+            case 'mailNotSent':
+                echo '<p class="err">Sorry, the confirmation email has not been sent. Please go to <a href="http://localhost/web-edi/do.resentmail.php"> 
+                    this page </a></p>';
+                break;
+            case 'unknow':
+                echo '<p class="err">Error unknown</p>';
                 break;
             default: 
                 echo '<p class="err">An error is detected but not identified</p>';

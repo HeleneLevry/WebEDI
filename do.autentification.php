@@ -66,6 +66,7 @@ else{
 
 // -------------------- FUNCTIONS --------------------
 
+// ----- Treatment -----
 // parameterControl
 function parameterControl(){
 	if ( isset($_POST["login"]) AND isset($_POST["password"]) ) {
@@ -203,6 +204,8 @@ function saveUSerInfos(){
 	$_SESSION['email'] = $resultatUserInfo[3];
 	$_SESSION['last_activity'] = time();
 }
+
+// ----- Redirection -----
 // redirectError
 function redirectError(){
 	global $Error;
@@ -237,6 +240,7 @@ function redirectError(){
 		header("Location: connection.php?error=pwdWrong");
 		exit();
 		break;
+		// default
 		default:
 		header("Location: connection.php?error=unknow");
 		exit();

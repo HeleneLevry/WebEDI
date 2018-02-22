@@ -80,9 +80,6 @@
 <?php
     function printError(){
         switch($_GET['error']) {
-            case 'missingArg':
-                echo '<p class="err">Some fields are missing</p>';
-                break;
             case 'sessionExpired':
                 echo '<p class="err">Your session is expired, please reconnect</p>';
                 break;
@@ -92,18 +89,24 @@
             case 'accountActivation':
                 echo '<p class="err">Your account has been activated successfully</p>';
                 break;
-            case 'NotActive':
-                echo '<p class="err">
-                    Sorry, your account isn\'t active yet
-                    </br>
-                    Please check your mails and click on the link provided
-                    </p>';
+            case 'missingArg':
+                echo '<p class="err">Some fields are missing</p>';
                 break;
             case 'errConnectionDB':
                 echo '<p class="err">Cannot connect to the database</p>';
                 break;
             case 'loginNotFound':
                 echo '<p class="err">Sorry, there is no account for this login</br>You should sign in</p>';
+                break;
+            case 'NotActive':
+                echo '<p class="err">
+                    Sorry, your account isn\'t active yet
+                    </br>
+                    Please check your mails and click on the link provided
+                    </br>
+                    You can also go to <a href="http://localhost/web-edi/do.resentmail.php"> 
+                    this page </a> to resend the activation mail
+                    </p>';
                 break;
             case 'TooManyAttemps':
                 echo '<p class="err">Sorry, you\'ve tried to connect too many times</p>';

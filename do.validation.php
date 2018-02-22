@@ -75,3 +75,5 @@ else{
 	echo '<p class="err">No login found in the URL</p>';
 	exit();
 }
+
+// Add redirect error !!!
