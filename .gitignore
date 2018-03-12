@@ -1,6 +1,7 @@
-Transactions/oldFiles
-Transactions/dataSaved
+/Transactions/oldFiles
+/Transactions/dataSaved
+/TP_ICI_RELAIS/output.xml
 /PictureMerge
 /others
-/CurrencyRates
+/CurrencyRates/output.html
 .gitignore
