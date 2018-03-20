@@ -99,7 +99,7 @@
                     </br>
                     Please check your mails and click on the link provided
                     </br>
-                    You can also go to <a href="/do.resentmail.php"> 
+                    You can also go to <a href="do.resentmail.php"> 
                     this page </a> to resend the activation mail
                     </p>';
                 break;
