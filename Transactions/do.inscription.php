@@ -92,13 +92,19 @@ function parameterControl(){
 function dbConnect(){
 	try{
 		global $connection;
-		$dbhost = 'mysql:host=localhost;dbname=webedi';
+		/*$dbhost = 'mysql:host=localhost;dbname=webedi';
 		$dbuser = 'root';
 		$dbmdp = '';
 		$options = array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
-		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);
+		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);*/
+		$connection = new PDO(
+			"mysql:host=" . getenv("MYSQL_ADDON_HOST") . ";dbname=" . getenv("MYSQL_ADDON_DB"),
+	    	getenv("MYSQL_ADDON_USER"),
+	    	getenv("MYSQL_ADDON_PASSWORD"),
+	    	array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+		);
 		return $connection;
 	} catch (Exception $e){
 		global $Error, $Redirect;

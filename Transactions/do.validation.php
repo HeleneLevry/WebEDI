@@ -11,13 +11,20 @@ if (isset($_GET['login'])){
 
 		// Database connection
 	try{
-		$dbhost = 'mysql:host=localhost;dbname=webedi';
+		/*$dbhost = 'mysql:host=localhost;dbname=webedi';
 		$dbuser = 'root';
 		$dbmdp = '';
 		$options = array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
-		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);
+		$connection = new PDO( $dbhost, $dbuser, $dbmdp, $options);*/
+
+		$connection = new PDO(
+			"mysql:host=" . getenv("MYSQL_ADDON_HOST") . ";dbname=" . getenv("MYSQL_ADDON_DB"),
+	    	getenv("MYSQL_ADDON_USER"),
+	    	getenv("MYSQL_ADDON_PASSWORD"),
+	    	array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+		);
 
 		// Login search
 		$gabSearchLogin = "SELECT count(*) FROM users WHERE login LIKE ?";
@@ -31,7 +38,7 @@ if (isset($_GET['login'])){
 			$prepActive = $connection->prepare($gabActive);
 			$exeActive = $prepActive->execute(array(1, $loginForm));
 
-		// Active account
+			// Active account
 			$gabActive = "SELECT active FROM users WHERE login LIKE ?";
 			$prepActive = $connection->prepare($gabActive);
 			$exeActive = $prepActive->execute(array($loginForm));
@@ -40,9 +47,6 @@ if (isset($_GET['login'])){
 
 				header("Location: connection.php?error=accountActivation");
 				exit();
-
-
-
 
 
 			// Find if active account

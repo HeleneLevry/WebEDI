@@ -1,6 +1,6 @@
 # --- Creation de la base Commerce
-create database webedi;
-	use webedi;
+#create database webedi;
+	use br2zmboei;
 
 
 # --- Creation des tables
