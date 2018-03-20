@@ -90,7 +90,7 @@
 	// -> Unix    : $path_bin = "/home/repertoire/bin/request";
 	//
 
-	$path_bin = "citelis\bin\\request";
+	$path_bin = ".\citelis\bin\\request";
 
 
 	//	Appel du binaire request
