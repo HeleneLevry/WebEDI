@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
     <title>Web-EDI - Sign In</title>
 </head>
 
