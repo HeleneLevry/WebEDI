@@ -1,0 +1,47 @@
+###############################################################################
+#
+#	Fichier des parametres du commercant
+#
+#	Remarque :	Ce fichier doit etre adapte pour chaque commerce
+#	
+#
+###############################################################################
+
+# URL de traitement de la reponse automatique
+
+#AUTO_RESPONSE_URL!!
+
+# logo de fond d'ecran
+
+BACKGROUND!!
+
+# logo d'annulation (affichage d'un bouton si non renseigne)
+
+CANCEL_LOGO!!
+
+# URL de traitement d'un paiement refuse
+
+CANCEL_URL!http://www.eco-stores.fr/citelis/sample/call_response.php!
+
+# le logo du commercant
+
+LOGO!!
+
+# Liste des moyens de paiement acceptes par le commercant :
+
+PAYMENT_MEANS!CB,2,VISA,2,MASTERCARD,2!
+
+# URL de traitement d'un paiement accepte
+
+RETURN_URL!http://www.eco-stores.fr/citelis/sample/call_response.php!
+
+# logo de retour a la boutique apres le paiement  (bouton si non renseigne)
+
+RETURN_LOGO!!
+
+# logo de validation du paiement (affichage d'un bouton si non renseigne)
+
+SUBMIT_LOGO!!
+
+
+# END OF FILE

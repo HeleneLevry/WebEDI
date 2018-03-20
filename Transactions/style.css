@@ -1,13 +1,22 @@
 /* style.css */
 
+* {
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+
 html{
-	height:100%;
+	background-color: #cae5ff;
+	height: 100%; width: 100%;
+	margin: 0; padding: 0;
 }
 
 body{
-	min-height: 100%;
-	margin: 0;
-	padding: 0;
+	height: 100%; width: 100%;
+	min-height: 100%; max-width: 100%;
+	margin: 0; padding: 0;
+	display: table;
+	position:relative;
 	background-color: #cae5ff;
 	color: #615d6c;
 	text-align: left;
@@ -22,6 +31,7 @@ h1{
 	text-align: center;
 	font-size: 2em;
 	font-weight: bold;
+	margin : 15px 0px;
 }
 
 h2{
@@ -29,28 +39,36 @@ h2{
 	text-align: center;
 	font-size: 1.5em;
 	font-style: oblique;
-	margin: 25px 10px 25px 10px;
+	margin: 15px 0px;
 }
 
 h3{
 	color: #7796cb;
 	text-align: left;
 	font-size: 1.2em;
+	margin: 0.5em 0;
 }
 
 h4{
 	color: #7796cb;
 	text-align: left;
 	font-size: 1em;
+	margin: 0;
 }
 
 p{
 	text-align: justify;
 	line-height: 1.6em;
+	margin: 0;
+}
+
+.info{
+	text-align: center;
+	font-style: oblique;
 }
 
 hr{
-	margin: 25px auto;
+	margin: 20px auto;
 	width: 50%;
 	height: 3px;
 	background-color: #8C8994;
@@ -59,76 +77,61 @@ hr{
 
 a:link{
 	color: #8C8994;
-	text-align: left;
 	font-style: oblique;
 	line-height: 0.5em;
 }
 a:visited{
 	color: #8C8994;
-	text-align: left;
 	font-style: oblique;
 	line-height: 0.5em;
 }
 a:hover{
 	color: #8C8994;
-	text-align: left;
 	font-style: normal;
 	line-height: 0.5em;
 }
 
-.hidden{
-	visibility:hidden;
+form{
+	display:flex;
+	justify-content: space-evenly;
+	width: 50%;
+	min-width: 450px; max-width: 1000px;
 }
 
-.hrFine{
-	margin: 20px auto;
-	width: 25%;
-	height: 1px;
-	background-color: #8C8994;
-	border: none;
-}
-
-
-.long{
-	margin: 20px auto;
+fieldset{
+	border-radius: 2.5%;
+	border-color: #8C8994;
+	border-style: : 2px;
+	padding: 20px 5%; margin : 5px 0px;
 	width: 100%;
-	height: 1px;
-	background-color: #8C8994;
-	border: none;
 }
 
-.info{
-	text-align: center;
-	font-style: oblique;
+legend {
+  background-color: #615d6c; color: #acedff;
+  padding: 10px 10px;
+  border-radius: 10%; border: none;
+  font-size: 1.2em;
+  font-style: oblique;
 }
 
-.bottomButton{
-	position: fixed;
-	bottom: 0px;
-	right: 0px;
-}
-
-.rightAlign{
-	text-align: right;
-	margin-right: 10px;
-}
-
-.leftAlign{
-	text-align: left;
-	margin-left: 10px;
-}
-
-.center{
-	text-align: center;
-}
-
-.column{
+label{
 	display: flex;
+	flex-direction: row;
 	flex-wrap: nowrap;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	text-align: center;
+	padding: 5px 0px;
+	line-height: 1em;
+	justify-content: space-evenly;
+}
+
+.label{
+	width: 175px;
+	margin: 0px 5px 0px 0px;
+}
+
+select, input{
+	margin: 0px 0px 0px 5px;
+	width: 30%;
+	min-width: 15em;
 }
 
 .button{
@@ -153,13 +156,94 @@ a:hover{
 	background-color: #8C8994;
 }
 
+.bottomButton{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+}
+
+.rightAlign{
+	text-align: right;
+	margin-right: 10px;
+}
+
+.leftAlign{
+	text-align: left;
+	margin-left: 10px;
+}
+
+.center{
+	text-align: center;
+}
+
 .err{
-	margin: 25px auto;
+	width : 100%; min-width: 500px;
+	display:flex;
+	margin: 20px 0; padding: 5px 0;
+	justify-content: center;
 	text-align: center;
 	background-color: #615d6c;
 	color: #acedff;
 	font-weight: bold;
 }
+
+.hidden{
+	visibility:hidden;
+}
+
+.hrFine{
+	margin: 15px auto;
+	width: 50%;
+	height: 1.5px;
+	background-color: #8C8994;
+	border: none;
+}
+
+.colonneBody{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.colonne{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: space-evenly;
+	width: 100%;
+}
+
+
+
+
+
+/*.long{
+	margin: 20px auto;
+	width: 100%;
+	height: 1px;
+	background-color: #8C8994;
+	border: none;
+}
+
+
+
+
+
+
+.column{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	text-align: center;
+}
+
+
+
+
 .miniature{
 	height: 100px;
 	width: auto;
@@ -169,8 +253,8 @@ a:hover{
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
-	justify-content: center; /*space-around; /*center*/
-	align-items: flex-start; /*center*/
+	justify-content: center; 
+	align-items: flex-start; 
 }
 
 #conteneurR{
@@ -196,18 +280,8 @@ a:hover{
 }
 .size40{
 	flex:0 0 40%;
-}
+}*/
 
-#conteneurValid + .element:nth-child(1) /* On prend le deuxième bloc élément */
-{
-	flex: 1;
-}
 
-#conteneurValid + .element:nth-child(2) /* On prend le deuxième bloc élément */
-{
-	flex: 2;
-	
-   /*text-align: right;
-    align-self: flex-end;*/ /* Seul ce bloc sera aligné à la fin */
 }
 

@@ -14,6 +14,8 @@
 
 <body>
 
+    <div class="colonneBody">
+
     <!-- Title -->
     <h1>Log in</h1>
     <hr>
@@ -28,38 +30,31 @@
     <!-- Form -->
     <form method="post" action="do.autentification.php">
 
-        <!-- Conteneur -->
-        <div id="conteneur">
+        <div class="colonne">
 
-            <!-- Element 1 -->
-            <div class="element">
-                <!-- Login -->
-                <p>Login</p>
-                <!-- Password -->
-                <p>Password</p>
-                <!-- Retour -->
-                <p>
-                    <input class="button" type="button" value="Sign in" onclick="window.location.href='inscription.php'">
-                </p>
-            </div>
+            <!-- Login -->
+            <p>
+                <label for="login">
+                    <span class="label"> Login </span>
+                    <input type="text" required name="login" value="<?php valueCookie() ?>"/>
+                </label>
+            </p>
+            <!-- Password -->
+            <p>
+                <label for="password">
+                    <span class="label"> Password </span>
+                    <input type="password" required name="password" />
+                </label>
+            </p>
+            <p class="center">
+                <span class="leftAlign"> <input class="button" type="button" value="Sign in" onclick="window.location.href='inscription.php'"> </span> 
+                <span class="rightAlign"> <input class="button" type="submit" value="Validate" /> </span>
+            </p>
 
-            <!-- Element 2 -->
-            <div class="element">
-                <!-- Login -->
-                <p> <input type="text" required name="login" value="<?php valueCookie() ?>"/> </p>
-                <!-- Password -->
-                <p> <input type="password" required name="password" /> </p>
-                <!-- Validate -->
-                <p> 
-                    <input class="button" type="submit" value="Validate" />
-                </p>
-            </div>
-
-        <!-- End conteneur -->
         </div>
-        
-    <!-- End form -->
+
     </form>
+</div>
 
 </body>
 

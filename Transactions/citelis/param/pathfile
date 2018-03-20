@@ -1,0 +1,43 @@
+#########################################################################
+#
+#	Pathfile 
+#
+#	Liste fichiers parametres utilises par le module de paiement
+#
+#########################################################################
+#
+#
+#-------------------------------------------------------------------------
+# Activation (YES) / Désactivation (NO) du mode DEBUG
+#-------------------------------------------------------------------------
+#
+DEBUG!YES!
+#
+# ------------------------------------------------------------------------
+# Chemin vers le répertoire des logos depuis le web alias  
+# Exemple pour le répertoire www.merchant.com/citelis/payment/logo/
+# indiquer:
+# ------------------------------------------------------------------------
+#
+D_LOGO!/citelis/logo/!
+#
+# --------------------------------------------------------------------------
+#  Fichiers paramètres liés a l'api citelis paiement	
+# --------------------------------------------------------------------------
+#
+# certificat du commercant
+#
+F_CERTIFICATE!C:\wamp64\www\Web-EDI\Transactions\citelis\param\certif!
+#
+# fichier paramètre commercant
+#
+F_PARAM!C:\wamp64\www\Web-EDI\Transactions\citelis\param\parmcom!
+#
+# fichier des  paramètres citelis
+#
+F_DEFAULT!C:\wamp64\www\Web-EDI\Transactions\citelis_param\parmcom.citelis!
+#
+# --------------------------------------------------------------------------
+# 	end of file
+# --------------------------------------------------------------------------
+

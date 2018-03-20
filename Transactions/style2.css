@@ -1,0 +1,212 @@
+/* style2.css */
+
+html{
+	height:100%;
+}
+
+body{
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #cae5ff;
+	color: #615d6c;
+	text-align: left;
+	font-size: 1em;
+	font-family: Verdana, Georgia, Trebuchet, Arial, sans-serif;
+	font-style: normal;
+	font-weight: normal;
+}
+
+h1{
+	color: #7796cb;
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+h2{
+	color: #7796cb;
+	text-align: center;
+	font-size: 1.5em;
+	font-style: oblique;
+	margin: 25px 10px 25px 10px;
+}
+
+h3{
+	color: #7796cb;
+	text-align: left;
+	font-size: 1.2em;
+}
+
+h4{
+	color: #7796cb;
+	text-align: left;
+	font-size: 1em;
+}
+
+p{
+	text-align: justify;
+	line-height: 1.6em;
+}
+
+hr{
+	margin: 25px auto;
+	width: 50%;
+	height: 3px;
+	background-color: #8C8994;
+	border: none;
+}
+
+a:link{
+	color: #8C8994;
+	text-align: left;
+	font-style: oblique;
+	line-height: 0.5em;
+}
+a:visited{
+	color: #8C8994;
+	text-align: left;
+	font-style: oblique;
+	line-height: 0.5em;
+}
+a:hover{
+	color: #8C8994;
+	text-align: left;
+	font-style: normal;
+	line-height: 0.5em;
+}
+
+.hidden{
+	visibility:hidden;
+}
+
+.hrFine{
+	margin: 20px auto;
+	width: 25%;
+	height: 1px;
+	background-color: #8C8994;
+	border: none;
+}
+
+
+.long{
+	margin: 20px auto;
+	width: 100%;
+	height: 1px;
+	background-color: #8C8994;
+	border: none;
+}
+
+.info{
+	text-align: center;
+	font-style: oblique;
+}
+
+.bottomButton{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+}
+
+.rightAlign{
+	text-align: right;
+	margin-right: 10px;
+}
+
+.leftAlign{
+	text-align: left;
+	margin-left: 10px;
+}
+
+.center{
+	text-align: center;
+}
+
+.column{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	text-align: center;
+}
+
+.button{
+	text-align: center;
+	background-color: #615d6c;
+	color: #acedff;
+	font-size: 1em;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	width: auto;
+	min-width: 150px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.button:hover{
+	background-color: #8C8994;
+}
+
+.err{
+	margin: 25px auto;
+	text-align: center;
+	background-color: #615d6c;
+	color: #acedff;
+	font-weight: bold;
+}
+.miniature{
+	height: 100px;
+	width: auto;
+}
+
+#conteneur{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	justify-content: center; /*space-around; /*center*/
+	align-items: flex-start; /*center*/
+}
+
+#conteneurR{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	justify-content: flex-start; 
+	align-items: flex-start;
+}
+
+.element{
+	margin: 10px 10px 10px 10px;
+}
+
+.elementR{
+	padding: 20px 20px 50px 50px;
+	text-align: left; 
+	flex-wrap: nowrap;
+}
+
+.size80{
+	width:80%;
+}
+.size40{
+	flex:0 0 40%;
+}
+
+#conteneurValid + .element:nth-child(1) /* On prend le deuxième bloc élément */
+{
+	flex: 1;
+}
+
+#conteneurValid + .element:nth-child(2) /* On prend le deuxième bloc élément */
+{
+	flex: 2;
+	
+   /*text-align: right;
+    align-self: flex-end;*/ /* Seul ce bloc sera aligné à la fin */
+}
